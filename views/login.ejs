@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        cursor: pointer;
+      }
+
+      .error {
+        color: red;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form id="loginForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" />
+
+      <button type="submit">Login</button>
+      <p id="errorText" class="error"></p>
+    </form>
+
+    <script>
+      // Add an event listener to the login form submission
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent the default form submission
+
+          // Get the username and password values from the form
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+
+          // Prepare the data object to send in the request body
+          const data = {
+            username: username,
+            password: password,
+          };
+
+          // Make the login request to the server
+          fetch("/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else if (response.status === 400) {
+                throw new Error("Invalid username or password");
+              } else if (response.status === 401) {
+                throw new Error("Invalid username or password");
+              } else {
+                throw new Error("An error occurred");
+              }
+            })
+            .then((data) => {
+              // Check if redirect field exists in the response
+              if (data.redirect) {
+                // Manually redirect to the specified URL
+                window.location.href = data.redirect;
+              } else {
+                // Handle other response data as needed
+                console.log(data.message);
+              }
+            })
+            .catch((error) => {
+              document.getElementById("errorText").textContent = error.message;
+            });
+        });
+    </script>
+  </body>
+</html>
