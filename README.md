@@ -102,7 +102,7 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 
 ## Author
 
-- Your Name
-- GitHub: [@your-username](https://github.com/your-username)
+- Ibrahim Khan
+- GitHub: [@Shall-we-play-a-game](https://github.com/Shall-we-play-a-game)
 
 Feel free to update the content as per your specific project requirements. Include any additional sections or information that you think would be useful for users.
